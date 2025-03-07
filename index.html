@@ -1,1 +1,1586 @@
-<p>hello</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .title {
+            text-align: center;
+            font-size: 32px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .content img {
+            max-width: 50%;
+            height: auto;
+        }
+        .content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .content .caption {
+            font-size: 14px;
+            margin-top: -10px; /* 调整图示的位置 */
+            margin-bottom: 20px; /* 增加图示与下文的间距 */
+            text-align: center;
+        }
+        .image-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .image-row img {
+            max-width: 48%; /* 调整图像的宽度以适应并列布局 */
+            height: auto;
+        }
+        .table-style-1 {
+            font-size: 0.8em;
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+        .table-style-1 th, .table-style-1 td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .table-style-1 th {
+            background-color: #f2f2f2;
+        }
+        .table-style-1 .green {
+            background-color: #d6eadf;
+        }
+        .table-style-1 .blue {
+            background-color: #d0e3f0;
+        }
+        .table-style-1 .orange {
+            background-color: #f8d7da;
+        }
+
+        /* 表格2样式 */
+        .table-style-2 {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table-style-2 th, .table-style-2 td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .table-style-2 th {
+            background-color: #f2f2f2;
+        }
+        .table-style-2 .green {
+            background-color: #d6eadf;
+        }
+        .table-style-2 .blue {
+            background-color: #d0e3f0;
+        }
+        .table-style-2 .orange {
+            background-color: #f8d7da;
+        }
+        ul {
+            text-align: left; /* 将ul的文本左对齐 */
+        }
+        .link-section {
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        .link-section img {
+            vertical-align: middle;
+        }
+        .link-section a {
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+            margin-left: 10px;
+            vertical-align: middle;
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 大标题 -->
+    <div class="title">COME: Dual Structure-Semantic Learning with Collaborative MoE<br> for Universal Lesion Detection Across Heterogeneous Ultrasound Datasets</div>
+    <div class="link-section">
+            <img src="img/muscle.png" alt="separator icon" width="24" height="24">
+            <a href="https://github.com/create0312/COME.github.io" target="_blank">[Link for Code Release of COME]</a>
+        </div>
+
+    <!-- 第一段 -->
+    <div class="container">
+        <div class="content">
+            <h2>Abstract</h2>
+            <p>Conventional single-dataset training paradigms often lead to performance collapse when encountering new data distributions, particularly in ultrasound (US) image analysis where limited data availability is exacerbated by acoustic shadows and speckle noise. Therefore, constructing a universal framework for multi-heterogeneous US datasets is imperative. However, a key challenge arises: how to effectively mitigate inter-dataset interference while preserving dataset-specific discriminative features for robust downstream task? Previous approaches utilize individual source-specific decoders or domain adaptation strategies, albeit at the cost of increased parameter counts and additional test-source information. Considering this, we propose a Universal Collaborative Mixture of Heterogeneous Source-Specific Experts (COME). Specifically, COME establishes dual structure-semantic shared experts that create a universal representation space and then collaborate with source-specific experts to extract discriminative features through providing complementary features. This design enables robust generalization by leveraging cross-datasets experience distributions and providing universal US priors for small-batch or unseen data scenarios. Extensive experiments under three evaluation modes (single-dataset, intra-organ, and inter-organ integration datasets) demonstrate COME's superiority, achieving significant mean AP improvements over state-of-the-art methods.</p>
+        </div>
+
+
+<div class="content">
+                       <h2>Dataset Details</h2>
+
+<p>To design a universal model for heterogeneous ultrasound (US) datasets, we first construct an integrated benchmark consisting of 4 breast and 4 thyroid US datasets. Notably, these datasets originate from different sources, with significant domain differences, including varying shadow artifacts, speckle noise distributions, inconsistent grayscale variations, and differing anatomical structures, as shown in <a href="#data">Fig 1(a).</a>.</p>
+<p>Due to the strict collection environments of US datasets and the heavy reliance on experienced doctors, many existing public datasets suffer from an imbalanced distribution, as shown in <a href="#data">Fig 1(b).</a>. However, the proposed COME architecture effectively addresses this issue. As demonstrated in <a href="#table1">Table Ⅰ</a> of the main text, the middle section of the table shows that after training on two intra-organ datasets, both COME(Multi-step) and COME(Fine2Coarse) achieve optimal performance across all datasets, with a 5.14% improvement in mean AP. The lower part of the table shows that, on all eight inter-organ datasets, COME outperforms other methods by 3.19%, with improvements in nearly all datasets.</p>
+
+            <img id="data" src="img/data.png" alt="separator icon" style="max-width: 90%; height: auto;" >
+<p></p>
+            <p class="caption">Fig 1. This paper constructs an integrated benchmark comprising eight heterogeneous breast and thyroid ultrasound datasets. And the distinct characteristics of each dataset pose challenges in building a universal analysis framework.</p>
+</div>
+        <div class="content">
+            <h2>Overall Framework</h2>
+            <p>We propose the Collaborative Mixture of Heterogeneous Experts (COME), a novel framework for lesion detection across multiple heterogeneous US datasets that synergistically integrates dual structural-semantic priors with intra-dataset specific feature disentanglement. As illustrated in <a href="#frame">Fig 2.</a>The framework extends the DINO-ViT backbone, comprising of an encoder to undergo unified patch embedding and a decoder for downstream inference, both of which have 6 Transformer layers, and we innovatively replace standard FFN layers with COME. Each COME consists of a Structure Shared Expert (STE) to learn dataset-agnostic imaging and structural invariance, a Semantic Shared Expert (SEE) to encode high-level consistent anatomical semantics, and a heterogeneous Source-Specific Expert module (S²E) for discriminative representations. STE and SEE provide dual shared prior knowledge to augment S²E's capacity for feature enrichment during single-source information mining. Given a set of multiple US datasets <i>{ USd_1, USd_2, ..., USd_M}<i>, where denotes the i-th source dataset containing images {x<sub>1</sub><sup>i</sup>, x<sub>2</sub><sup>i</sup>, ..., x<sub>n</sub><sup>i</sup>}, model processes inputs X &isin; USd<sub>i </sub> to predict target <i>Y<i> (bounding box coordinates, category labels, confidence scores). In summary, we establish new state-of-the-art in handling US heterogeneity while maintaining clinical deployability.</p>
+            <p></p>
+			<img id="frame" src="img/frame.png" alt="Illustration of the proposed HSformer+ framework;" style="max-width: 70%; height: auto;">
+			<p></p>
+            <p class="caption">Fig 2. (a) Overview of COME. (b) Two shared experts are constructed based on structure-semantic learning for the latent universal feature space. (c) Two clustering strategies in the S²E route tokens from the same dataset to specific experts, enabling expert specialization.</p>
+
+        </div>
+
+        <div class="content">
+            <h2>Overall Performance</h2>
+            <p><a href="#table1">Table I</a> compares COME with baselines across three training configurations: single-dataset, intra-organ (breast/thyroid) combinations, and inter-organ integration, revealing three key findings:</p>
+<ol style="text-align: left;">
+    <li>DINO (top section) achieves performance with -3.49% and -4.62% mean AP decrease over middle/bottom configurations respectively. Besides, the high computational cost of single-dataset training outweighs its performance gains, with poor generalizability causing significant performance drops on unseen data.</li>
+    <li>COME with Multi-step clustering attains the highest mean AP, showing 5.14-7.42% improvements vs. others. The consistent performance gains across most datasets demonstrate the efficacy of our multi-dataset integration and cross-dataset correlation mining.</li>
+    <li>The 1.13% performance elevation in bottom (vs. middle) demonstrates enhanced efficacy of inter-organ integration and clinical applicability. Notably, our framework achieves 4.19% (BUSI) and 2.23% (BUV) superiority over DDQ-DERT, confirming its viability as a single-source training alternative.</li>
+</ol>
+<p>Further, we present visualization results of four models trained on the integration benchmark of eight datasets, highlighting image differences and demonstrating the superiority of our COME, as shown in <a href="#result">Fig 3.</a>.</p>
+
+            <h2 style="font-size: 0.8em;">Table I - Lesion detection results on our benchmark, divided into top, middle, and bottom sections based on training data paradigms.</h2>
+<table id="table1" style="margin:auto;border-collapse: collapse; border: none; border-spacing: 0px;" >
+	<tr>
+		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Method
+		</td>
+		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Paradigms
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSI
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUV
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSBRA
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSC
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DDTI
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUD
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUS
+		</td>
+		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TNSCUI
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Mean
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Open-GroundingDINO&nbsp;
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Single
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.2495
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3649
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3025
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3666
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5391</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7255
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6112</b>
+		</td>
+		<td style="background-color: rgb(255, 236, 132); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6986</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4822
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			YOLOv10&nbsp;
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Single
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3161
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6216
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5627
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7052
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3640
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7450</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4210
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6907
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5532
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DINO&nbsp;
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Single
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.4180</b>
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6754</b>
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5780</b>
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7313</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4609
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7373
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6047
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6945
+		</td>
+		<td style="background-color: rgb(255, 236, 132); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6125</b>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DINO-MoE
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Single
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3388
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5510
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5376
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6706
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4189
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7088
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5248
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6669
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5521
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DAMEX
+		</td>
+		<td style="border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Single
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3270
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5653
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5358
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6458
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4572
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7101
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5313
+		</td>
+		<td style="border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6727
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5556
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			CerberusDet&nbsp;
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Intra-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3470
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6980
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6300
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5770
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5180
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6780
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6370
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6830
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5960
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DINO
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Intra-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3509
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6399
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5193
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7112
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4487
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6899
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5666
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6597
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5732
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DINO-MoE
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Intra-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3269
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6795
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5419
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.671
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4898
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7001
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5801
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6804
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5837
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DAMEX
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Intra-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3591
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6990
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5404
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6693
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5126
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7000
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5850
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6881
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5941
+		</td>
+	</tr>
+	<tr>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Our COME (Multi-Step)
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Intra-Organ
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4883
+		</td>
+		<td style="background-color: rgb(142, 188, 143); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7995</b>
+		</td>
+		<td style="background-color: rgb(142, 188, 143); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6748</b>
+		</td>
+		<td style="background-color: rgb(142, 188, 143); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6879</b>
+		</td>
+		<td style="background-color: rgb(142, 188, 143); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5481</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7032
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5900
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6875
+		</td>
+		<td style="background-color: rgb(142, 188, 143); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6474</b>
+		</td>
+	</tr>
+	<tr>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Our COME (Fine2Coarse)
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Intra-Organ
+		</td>
+		<td style="background-color: rgb(142, 188, 143); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.4885</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7876
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6689
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6434
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5443
+		</td>
+		<td style="background-color: rgb(142, 188, 143); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7039</b>
+		</td>
+		<td style="background-color: rgb(142, 188, 143); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5971</b>
+		</td>
+		<td style="background-color: rgb(142, 188, 143); border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6922</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6407
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			CerberusDet
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Inter-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4570
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7940
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6490
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6300
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5500
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6600
+		</td>
+		<td style="background-color: rgb(255, 217, 210); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6130</b>
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6620
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6268
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DINO
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Inter-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3825
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6597
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5395
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7088
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4583
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6912
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5475
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6461
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5792
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DINO-MoE
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Inter-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4003
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6838
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5560
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7227
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5118
+		</td>
+		<td style="background-color: rgb(255, 217, 210); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7103</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5799
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6973
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6077
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DAMEX
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Inter-Organ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4098
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7007
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5731
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7260
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5214
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7092
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5994
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6942
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6167
+		</td>
+	</tr>
+	<tr>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Our COME (Multi-Step)
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Inter-Organ
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4958
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7859
+		</td>
+		<td style="background-color: rgb(255, 217, 210); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6912</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7191
+		</td>
+		<td style="background-color: rgb(255, 217, 210); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5503</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7025
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5972
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7049
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6558
+		</td>
+	</tr>
+	<tr>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Our COME (Fine2Coarse)
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Inter-Organ
+		</td>
+		<td style="background-color: rgb(255, 217, 210); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5159</b>
+		</td>
+		<td style="background-color: rgb(255, 217, 210); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.8313</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6719
+		</td>
+		<td style="background-color: rgb(255, 217, 210); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7266</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5371
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7091
+		</td>
+		<td style="background-color: rgb(210, 211, 211); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5725
+		</td>
+		<td style="background-color: rgb(255, 217, 210); border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7052</b>
+		</td>
+		<td style="background-color: rgb(255, 217, 210); border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6587</b>
+		</td>
+	</tr>
+</table>
+  <p style="height: 10px;">&nbsp;</p>
+
+            <div class="image-row">
+                <img id="result" src="img/result.PNG" alt="Results comparison 1" style="max-width: 70%; height: auto;">
+            </div>
+			<p></p>
+            <p class="caption">Fig 3. We visualize lesion detection on the inter-organ integration benchmark, comparing the non-MoE model DINO, the MoE-based
+DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all heterogeneous datasets.</p>
+        </div>
+    </div>
+
+    <!-- 第二段 -->
+    <section data-block-type="contents" data-id="5" draggable="true" class="fdb-block">
+        <div class="container">
+            <div class="content">
+                <h2>Ablation Analysis</h2>
+
+                <p>In this section, (1) we first conduct an ablation study on the Transformer block architecture. As shown in Figure (a), HSformer+ divides K heads into two groups for horizontal and vertical hybrid structure-oriented attention calculations, followed by concatenation. We also design an architecture called HSformer-test, where all K heads are used for both horizontal and vertical feature extraction, followed by broadcasting, as depicted in Figure (b). Subsequently, (2) To evaluate the effectiveness of HCPE, SBC and the novel structure-oriented loss, we implement component analysis with several variants.</p>
+                           <h2 style="font-size: 0.8em;">Table Ⅱ - Lesion detection results on our benchmark, divided into top, middle, and bottom sections based on training data paradigms.</h2>
+
+                <table style="margin:auto;marginborder-collapse: collapse; border: none; border-spacing: 0px;">
+	<tr>
+		<td style="border-right: 2px double black;border-top: 2px double black; border-bottom: 2px double black; padding-right: 3pt; padding-left: 3pt;">
+			Method
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSI
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUV
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSBRA
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSC
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DDTI
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUD
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUS
+		</td>
+		<td style="border-right: 2px double black;border-top: 2px double black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TNSCUI
+		</td>
+		<td style="border-bottom: 2px double black; border-top: 2px double black;text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Mean
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; padding-right: 3pt; padding-left: 3pt;">
+			STE
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4628
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6802
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6517
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7123
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5008
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6827
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5307
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6704
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6115
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; padding-right: 3pt; padding-left: 3pt;">
+			SEE
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3849
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6570
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5927
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7006
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5231
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6859
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5397
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6795
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5954
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; padding-right: 3pt; padding-left: 3pt;">
+			Dual Shared Experts(-DSE)
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.3853
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6445
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5509
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6897
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5173
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6687
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5189
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6802
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5819
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; padding-right: 3pt; padding-left: 3pt;">
+			Clustering
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4587
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7093
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6590
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7003
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5335
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6952
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5772
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6779
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6264
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; padding-right: 3pt; padding-left: 3pt;">
+			Traceability Loss
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4721
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7211
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6605
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6913
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5341
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6960
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5826</b>
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6981
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6320
+		</td>
+	</tr>
+	<tr>
+		<td style="background-color: rgb(210, 211, 211); border-right: 2px double black; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			Our CoMS²E(Fine2Coarse)
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5159</b>
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.8313</b>
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6719</b>
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7266</b>
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5371</b>
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7091</b>
+		</td>
+		<td style="background-color: rgb(210, 211, 211); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			0.5725
+		</td>
+		<td style="background-color: rgb(219, 239, 250); border-right: 2px double black; text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7052</b>
+		</td>
+		<td style="background-color: rgb(219, 239, 250); text-align: center; border-bottom: 2px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6587</b>
+		</td>
+	</tr>
+</table>
+
+
+<p></p>
+				<img id='ablation' src="img/ablation.PNG" alt="Ablation architecture" style="max-width: 70%; height: auto;">
+				<p></p>
+                <p class="caption">Fig 4. Performance of the ablation study.</p>
+            </div>
+
+            <div class="content">
+                <h2>Parameter Setting</h2>
+                <p>To resolve potential conflicts in source routing, this section establishes two parameter analyses: [1] Dynamic configuration of number of source-specific experts via candidate set #Expert<sub>i</sub> ∈ {2, 4, 8, 10} enforces differentiated routing paths; [2] Analyzes the impact of K ∈{1, 2, 3, 4}on the Top‑K selection strategy. This pursuit of optimal parameters is intended to prevent the risk of overloading a single expert while ensuring the optimality of routing decisions through comprehensive parameter space exploration.</p>
+<div style="display: flex; justify-content: space-between; gap: 20px; justify-content: center; /* 水平居中 */
+">
+    <table style="border-collapse: collapse; border: none; border-spacing: 0px;">
+	<caption>
+		<h2 style="font-size: 0.8em;">Table III(a) - Investigating the impact of the number of # Expert on the performance of the proposed COME.</h2>
+	</caption>
+	<tr>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			# Experts
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); border-left: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSI
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUV
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSBRA
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); border-right: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSC
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); border-left: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DDTI
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUD
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUS
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TNSCUI
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Mean
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: 1px solid rgb(0, 0, 0); border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			4
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); border-left: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4693
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7585
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6811
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); border-right: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.7179
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); border-left: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5137
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.7139
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5880
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6906
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6416
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			8
+		</td>
+		<td style="border-left: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4898
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.8195
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.6919
+		</td>
+		<td style="border-right: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6998
+		</td>
+		<td style="border-left: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.5508
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7062
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.5883
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.7057
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.6565
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			10
+		</td>
+		<td style="border-left: 2px double rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;font-weight: bold;">
+			0.4932
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.8061
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6816
+		</td>
+		<td style="border-right: 1px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6953
+		</td>
+		<td style="border-left: 1px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5460
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7120
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5619
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6713
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6459
+		</td>
+	</tr>
+</table>
+
+    <table style="border-collapse: collapse; border: none; border-spacing: 0px;">
+	<caption>
+				<h2 style="font-size: 0.8em;">Table III(b) - Investigating the impact of the number of # Expert on the performance of the proposed COME.</h2>
+	</caption>
+	<tr>
+		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			# Experts
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUD
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUS
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DDTI
+		</td>
+		<td style="border-right: 1px solid black; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TNSCUI
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Mean
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			2
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5095
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7092</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5794</b>
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6921
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6226
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			4
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5594
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6932
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5750
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6935</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6303
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			8
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5481
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7032
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5900
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6875
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6322</b>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			10
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5595</b>
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6919
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5580
+		</td>
+		<td style="border-right: 1px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6878
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6243
+		</td>
+	</tr>
+</table>
+</div>
+
+<div style="display: flex; justify-content: space-between; gap: 20px; justify-content: center; /* 水平居中 */">
+    				<table style="border-collapse: collapse; border: none; border-spacing: 0px;">
+					<caption>
+		<h2 style="font-size: 0.8em;">Table  IV  - Parameter Analysis of the Impact of Top-K on the S²E Module.</h2>
+	</caption>
+	<tr>
+		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Top-K
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSI&nbsp;
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUV
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSBRA
+		</td>
+		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSC
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DDTI&nbsp;&nbsp;
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUD
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TUS
+		</td>
+		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			TNSCUI
+		</td>
+		<td style="border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Mean
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			K=1
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4898
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.8195
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6919</b>
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6998
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5508</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7062
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5883</b>
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7057</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6565
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			K=2
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4889
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7905
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6852
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7248
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5152
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7067
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5703
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6882
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6462
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			K=3
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.5159</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.8313</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6719
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7266</b>
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5371
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7091
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5725
+		</td>
+		<td style="border-right: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7052
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.6587</b>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			K=4
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5119
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7646
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6732
+		</td>
+		<td style="border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.7231
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.5283
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.7108</b>
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.4762
+		</td>
+		<td style="border-right: 2px double black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6783
+		</td>
+		<td style="border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.6333
+		</td>
+	</tr>
+</table>
+</div>
+
+				<!--                <img src="img/results-SAM.PNG" alt="Results of SAM models">-->
+<!--                <p class="caption">The segmentation performance of SAM-MP, SAM-BOX and the proposed HSformer+.</p>-->
+            </div>
+
+            <div class="content">
+                <h2>In-Depth Analysis</h2>
+                <p>We further highlight the advantages of the proposed COME by answering the following questions.</p>
+<p><strong>Q1: Does COME demonstrate zero-shot domain adaptation capability?</strong></p>
+<p>Four breast datasets exhibit significant distribution variations, such as source-specific noise and artifacts (similar heterogeneity in thyroid datasets). To validate COME's generalizability, we randomly train on the BUSI and test directly on the other three breast datasets.</p>
+
+<p>The performance comparison of DINO (non-MoE setup), DAMEX and our COME is demonstrated in <a href="#data">Table V.</a>. Experimental results show significant performance gains: COME achieves a 9% mean AP improvement on BUSI and an aggregate +32.8% mean AP increase across three additional datasets. This substantiates that our dual structure-semantic shared experts effectively provide universal knowledge while the S²E module successfully captures dataset-specific representations through feature routing.</p>
+<table id="table5" style="margin:auto;border-collapse: collapse; border: none; border-spacing: 0px;">
+	<caption>
+		<h2 style="font-size: 0.8em;">Table  V  - The zero-shot domain adaptation ability of the proposed COME.</h2>
+	</caption>
+	<tr>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Method
+			<br>
+			(Train on BUSI)
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); border-left: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSI
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUV
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSBRA
+		</td>
+		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			BUSC
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top: 1px solid rgb(0, 0, 0); border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DINO
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); border-left: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.418
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.481
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.357
+		</td>
+		<td style="border-top: 1px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.043
+		</td>
+	</tr>
+	<tr>
+		<td style="border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			DAMEX
+		</td>
+		<td style="border-left: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.327
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.409
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.344
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			0.115
+		</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			COME
+			<br>
+			(Fine2Coarse)
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); border-left: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.508</b>
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.561</b>
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.410</b>
+		</td>
+		<td style="border-bottom: 2px solid rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>0.297</b>
+		</td>
+	</tr>
+</table>
+<p><strong>Q2: Feature Visualization during Clustering</strong></p>
+<p>The proposed COME achieved optimal performance with its Fine2Coarse clustering strategy. As shown in <a href="#data">Fig 5.</a>, we visualized feature distributions across three stages: pre-clustering, post fine-grained clustering (16 centers), and final coarse-grained clustering with 8 centers. Initial fine-grained clustering caused slight feature fragmentation, which impaired downstream S²E training. Subsequent coarse-grained clustering enhanced regional feature concentration, effectively routing samples with similar latent representations to unified experts to promote specialization.</p>
+
+<img src="img/clustering.png" alt="Clustering." style="max-width: 50%; height: auto;">
+				<p></p>
+                <p class="caption">Fig 5. Feature Visualization of Fine2Coarse Clustering</p>
+				<p>Simultaneously, we demonstrate a multi-step clustering in <a href="#data">Fig 6.</a>: we set up five steps with four cluster centers per step. The clustering results from the previous stage serve as priors for the current stage, enabling COME to progressively construct independent attribute subspaces and achieve finer, more diversified feature representations that enhance downstream inference tasks.</p>
+
+<img src="img/multi-clustering.png" alt="Clustering." style="max-width: 100%; height: auto;">
+				<p></p>
+                <p class="caption">Fig 6. Feature Visualization of Multi-Step Clustering.</p>
+								<p></p>
+				<p><strong>Q3: How effectively are the experts utilized in the MoE layer of the S<sup>2</sup>E module in COME?</strong></p>
+<p><a href="#data">Fig 1(b).</a> illustrates the distribution of expert activation in COME across 8 heterogeneous datasets. It shows that experts are evenly assigned among the datasets, their activation increases as training progresses; and even under integrated-data interference, COME consistently routes samples from the same dataset to the same expert, validating the specialization of our source-specific experts S²E.</p>
+
+
+<img src="img/MOE.png" alt="Utilization of MoE." style="max-width: 60%; height: auto;">
+								<p></p>
+				                <p class="caption">Fig 7. Feature Visualization of Multi-Step Clustering.</p>
+
+            </div>
+
+
+			<div class="content">
+                <h2>Conclusion</h2>
+<p>This study proposes a dual structure-semantic learning framework for multiple heterogeneous US analysis, demonstrating superior performance in lesion detection. Addressing multi-source data characteristics, we innovatively design two shared experts to construct a universal feature space by integrating structural invariance and semantic consistency, supporting source-specific feature mining. Then a source-specific expert routing module employs clustering for feature decoupling, enhanced by traceability loss to reinforce expert specialization and ensure consistent data routing. Additionally, empirical results validate the effectiveness of intra-/inter-organ data integration strategies, offering new perspectives for the US analysis community, particularly given the increasing availability of public datasets.</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
