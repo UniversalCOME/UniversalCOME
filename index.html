@@ -130,38 +130,39 @@
     <div class="container">
         <div class="content">
             <h2>Abstract</h2>
-            <p>Conventional single-dataset training paradigms often lead to performance collapse when encountering new data distributions, particularly in ultrasound (US) image analysis where limited data availability is exacerbated by acoustic shadows and speckle noise. Therefore, constructing a universal framework for multi-heterogeneous US datasets is imperative. However, a key challenge arises: how to effectively mitigate inter-dataset interference while preserving dataset-specific discriminative features for robust downstream task? Previous approaches utilize individual source-specific decoders or domain adaptation strategies, albeit at the cost of increased parameter counts and additional test-source information. Considering this, we propose a Universal Collaborative Mixture of Heterogeneous Source-Specific Experts (COME). Specifically, COME establishes dual structure-semantic shared experts that create a universal representation space and then collaborate with source-specific experts to extract discriminative features through providing complementary features. This design enables robust generalization by leveraging cross-datasets experience distributions and providing universal US priors for small-batch or unseen data scenarios. Extensive experiments under three evaluation modes (single-dataset, intra-organ, and inter-organ integration datasets) demonstrate COME's superiority, achieving significant mean AP improvements over state-of-the-art methods.</p>
+            <p> Conventional single-dataset training often fails with new data distributions, especially in ultrasound (US) image analysis due to limited data, acoustic shadows, and speckle noise.
+Therefore, constructing a universal framework for multi-heterogeneous US datasets is imperative. However, a key challenge arises: how to effectively mitigate inter-dataset interference while preserving dataset-specific discriminative features for robust downstream task?
+Previous approaches utilize either a single source-specific decoder or a domain adaptation strategy, but these methods experienced a decline in performance when applied to other domains. Considering this, we propose a Universal Collaborative Mixture of Heterogeneous Source-Specific Experts (COME). Specifically, COME establishes dual structure-semantic shared experts that create a universal representation space and then collaborate with source-specific experts to extract discriminative features through providing complementary features. This design enables robust generalization by leveraging cross-datasets experience distributions and providing universal US priors for small-batch or unseen data scenarios. Extensive experiments under three evaluation modes (single-dataset, intra-organ, and inter-organ integration datasets) demonstrate COME's superiority, achieving significant mean AP improvements over state-of-the-art methods. </p>
         </div>
 
 
 <div class="content">
-                       <h2>Dataset Details</h2>
-<P>To develop a universal model for heterogeneous ultrasound (US) datasets, we built a benchmark of 4 breast and 4 thyroid US datasets. These datasets come from different sources and exhibit significant domain differences, such as variations in shadow artifacts, speckle noise, grayscale levels, and anatomical structures, as shown in <a href="#data">Fig 1.</a></p>
+                       <h2>Details of Multiple Heterogeneous Ultrasound Dataset Integration</h2>
+<P>To develop a universal model for heterogeneous ultrasound (US) datasets, we built a benchmark of 4 breast and 4 thyroid US datasets. These datasets come from different sources and exhibit significant domain differences, such as variations in shadow artifacts, speckle noise, grayscale levels, and anatomical structures, as shown in <a href="#data">Fig. 1</a></p>
 	<img id="data" src="img/data.png" alt="separator icon" style="max-width: 90%; height: auto;" >
 <p></p>
-            <p class="caption">Fig 1. This paper constructs an integrated benchmark comprising eight heterogeneous breast and thyroid ultrasound datasets. And the distinct characteristics of each dataset pose challenges in building a universal analysis framework.</p>
+            <p class="caption">Fig. 1 (a) presents representative samples from eight datasets, highlighting their distinct imaging variations. Fig. 1 (b) illustrates the distribution of these datasets within the overall inter-organ mixed dataset, revealing a significant data imbalance.</p>
 </div>
         <div class="content">
-            <h2>Overall Framework</h2>
-            <p>We propose the Collaborative Mixture of Heterogeneous Experts (COME), a novel framework for lesion detection across multiple heterogeneous US datasets that synergistically integrates dual structural-semantic priors with intra-dataset specific feature disentanglement. As illustrated in <a href="#frame">Fig 2.</a>The framework extends the DINO-ViT backbone, comprising of an encoder to undergo unified patch embedding and a decoder for downstream inference, both of which have 6 Transformer layers, and we innovatively replace standard FFN layers with COME. Each COME consists of a Structure Shared Expert (STE) to learn dataset-agnostic imaging and structural invariance, a Semantic Shared Expert (SEE) to encode high-level consistent anatomical semantics, and a heterogeneous Source-Specific Expert module (S²E) for discriminative representations. STE and SEE provide dual shared prior knowledge to augment S²E's capacity for feature enrichment during single-source information mining. Given a set of multiple US datasets <i>{ USd_1, USd_2, ..., USd_M}<i>, where denotes the i-th source dataset containing images {x<sub>1</sub><sup>i</sup>, x<sub>2</sub><sup>i</sup>, ..., x<sub>n</sub><sup>i</sup>}, model processes inputs X &isin; USd<sub>i </sub> to predict target <i>Y<i> (bounding box coordinates, category labels, confidence scores). In summary, we establish new state-of-the-art in handling US heterogeneity while maintaining clinical deployability.</p>
+            <h2>Collaborative Mixture of Heterogeneous Source-Specific Experts (COME)</h2>
+            <p>We propose the Collaborative Mixture of Heterogeneous Experts (COME), a novel framework for lesion detection across multiple heterogeneous US datasets that synergistically integrates dual structural-semantic priors with intra-dataset specific feature disentanglement, as illustrated in <a href="#frame">Fig. 2</a></p>
             <p></p>
 			<img id="frame" src="img/frame.png" alt="Illustration of the proposed HSformer+ framework;" style="max-width: 70%; height: auto;">
 			<p></p>
-            <p class="caption">Fig 2. (a) Overview of COME. (b) Two shared experts are constructed based on structure-semantic learning for the latent universal feature space. (c) Two clustering strategies in the S²E route tokens from the same dataset to specific experts, enabling expert specialization.</p>
+            <p class="caption">Fig. 2 (a) Overview of COME. (b) Two shared experts are constructed based on structure-semantic learning for the latent universal feature space. (c) Two clustering strategies in the S²E route tokens from the same dataset to specific experts, enabling expert specialization.</p>
 
         </div>
 
         <div class="content">
-            <h2>Overall Performance</h2>
-            <p><a href="#table1">Table I</a> compares COME with baselines across three training configurations: single-dataset, intra-organ (breast/thyroid) combinations, and inter-organ integration, revealing three key findings:</p>
-<ol style="text-align: left;">
-    <li>DINO (top section) achieves performance with -3.49% and -4.62% mean AP decrease over middle/bottom configurations respectively. Besides, the high computational cost of single-dataset training outweighs its performance gains, with poor generalizability causing significant performance drops on unseen data.</li>
-    <li>COME with Multi-step clustering attains the highest mean AP, showing 5.14-7.42% improvements vs. others. The consistent performance gains across most datasets demonstrate the efficacy of our multi-dataset integration and cross-dataset correlation mining.</li>
-    <li>The 1.13% performance elevation in bottom (vs. middle) demonstrates enhanced efficacy of inter-organ integration and clinical applicability. Notably, our framework achieves 4.19% (BUSI) and 2.23% (BUV) superiority over DDQ-DERT, confirming its viability as a single-source training alternative.</li>
-</ol>
-<p>Further, we present visualization results of four models trained on the integration benchmark of eight datasets, highlighting image differences and demonstrating the superiority of our COME, as shown in <a href="#result">Fig 3.</a>.</p>
+            <h2>Results of Comparative Experiments</h2>
+            <p><a href="#table1">Tab. 1</a> compares COME with baselines across three training configurations: single-dataset, intra-organ (breast/thyroid) combinations, and inter-organ integration.</p>
+<!--<ol style="text-align: left;">-->
+<!--    <li>DINO (top section) achieves performance with -3.49% and -4.62% mean AP decrease over middle/bottom configurations respectively. Besides, the high computational cost of single-dataset training outweighs its performance gains, with poor generalizability causing significant performance drops on unseen data.</li>-->
+<!--    <li>COME with Multi-step clustering attains the highest mean AP, showing 5.14-7.42% improvements vs. others. The consistent performance gains across most datasets demonstrate the efficacy of our multi-dataset integration and cross-dataset correlation mining.</li>-->
+<!--    <li>The 1.13% performance elevation in bottom (vs. middle) demonstrates enhanced efficacy of inter-organ integration and clinical applicability. Notably, our framework achieves 4.19% (BUSI) and 2.23% (BUV) superiority over DDQ-DERT, confirming its viability as a single-source training alternative.</li>-->
+<!--</ol>-->
 
-            <h2 style="font-size: 0.8em;">Table I - Lesion detection results on our benchmark, divided into top, middle, and bottom sections based on training data paradigms.</h2>
+            <h2 style="font-size: 0.8em;">Table 1 - Lesion detection results on our benchmark, divided into top, middle, and bottom sections based on training data paradigms. We report mean AP score on each dataset. Among them, <strong>bold</strong> indicates optimal performance for three paradigms.</h2>
 <table id="table1" style="margin:auto;border-collapse: collapse; border: none; border-spacing: 0px;" >
 	<tr>
 		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px double black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
@@ -795,20 +796,22 @@
 	</tr>
 </table>
   <p style="height: 10px;">&nbsp;</p>
+			<p>Further, we present visualization results of four models trained on the integration benchmark of eight datasets, highlighting image differences and demonstrating the superiority of our COME, as shown in <a href="#result">Fig. 3</a>.</p>
+
 
             <div class="image-row">
-                <img id="result" src="img/result.png" alt="Results comparison 1" style="max-width: 70%; height: auto;">
+                <img id="result" src="img/result.png" alt="Results comparison 1" style="max-width: 65%; height: auto;">
             </div>
 			<p></p>
-            <p class="caption">Fig 3. We visualize lesion detection on the inter-organ integration benchmark, comparing the non-MoE model DINO, the MoE-based
+            <p class="caption">Fig. 3 We visualize lesion detection on the inter-organ integration benchmark, comparing the non-MoE model DINO, the MoE-based
 DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all heterogeneous datasets.</p>
 
-<p>In the main text, we select one sample per dataset for comparison. Here, <a href="#sample">Fig 4.</a> shows additional lesion detection examples, demonstrating that our structure-semantic learning-based COME model delivers robust performance on diverse US images and holds promise for real-world clinical applications.</p>
+<p>In the main text, we select one sample per dataset for comparison, as demonstrated in <a href="#data">Fig. 3</a>. Here, <a href="#sample">Fig. 4</a> shows additional lesion detection examples, demonstrating that our structure-semantic learning-based COME model delivers robust performance on diverse US images and holds promise for real-world clinical applications.</p>
        <div class="image-row">
-                <img id="sample" src="img/sample.png" alt="Results comparison 1" style="max-width: 70%; height: auto;">
+                <img id="sample" src="img/sample.png" alt="Results comparison 1" style="max-width: 65%; height: auto;">
             </div>
 			<p></p>
-			<p class="caption">Fig 4. Additional lesion detection examples from the inter-organ integrated dataset.</p>
+			<p class="caption">Fig. 4 Additional lesion detection examples from the inter-organ integrated dataset.</p>
 		</div>
     </div>
 
@@ -816,11 +819,11 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
     <section data-block-type="contents" data-id="5" draggable="true" class="fdb-block">
         <div class="container">
             <div class="content">
-                <h2>Ablation Analysis</h2>
-<p>To validate the effectiveness of each component in COME, we implement five variants: (1) Ours w/o STE; (2) Ours w/o SEE; (3) Ours w/o Dual Shared Experts (-DSE): Discarding dual shared expert modules providing structural-semantic priors; (4) Ours w/o clustering; (5) Ours w/o Traceability loss, as shown in <a href="#ablation">Fig 5.</a>. In general, the -DSE exhibits the most severe performance degradation (-7.68% mean AP), followed by STE and SEE removals. It proves that constructing a universal latent feature space with structural-semantic priors enhances the performance of source-specific experts. Additionally, disabling the clustering (designed for multi-dataset noise suppression) results in 3.24% scores degradation, while removing the traceability loss (critical for expert specialization and training stability) causes 2.68% performance decline. In summary, our COME demonstrates superior improvement over baselines on multiple heterogeneous datasets when combining all components. The detailed quantitative results are presented in <a href="#table2">Table Ⅱ.</a></p>
-                           <h2 style="font-size: 0.8em;">Table Ⅱ - Lesion detection results on our benchmark, divided into top, middle, and bottom sections based on training data paradigms.</h2>
+                <h2>Details of Ablations</h2>
+<p>To validate the effectiveness of each component in COME, we implement five variants: (1) Ours w/o STE; (2) Ours w/o SEE; (3) Ours w/o Dual Shared Experts (-DSE): Discarding dual shared expert modules providing structural-semantic priors; (4) Ours w/o clustering; (5) Ours w/o Traceability loss. Quantitative and qualitative results are shown in <a href="#table2">Table. 2</a> and <a href="#ablation">Fig. 5</a>, respectively.</p>
+				<h2 style="font-size: 0.8em;">Tab. 2 - Quantitative Performance of the ablation study.</h2>
 
-                <table style="margin:auto;marginborder-collapse: collapse; border: none; border-spacing: 0px;">
+                <table id="table2"  style="margin:auto;marginborder-collapse: collapse; border: none; border-spacing: 0px;">
 	<tr>
 		<td style="border-right: 2px double black;border-top: 2px double black; border-bottom: 2px double black; padding-right: 3pt; padding-left: 3pt;">
 			Method
@@ -1049,19 +1052,20 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 
 
 <p></p>
-				<img id='ablation' src="img/ablation.png" alt="Ablation architecture" style="max-width: 70%; height: auto;">
+				<img id='ablation' src="img/ablation.png" alt="Ablation architecture" style="max-width: 60%; height: auto;">
 				<p></p>
-                <p class="caption">Fig 5. Performance of the ablation study.</p>
+                <p class="caption">Fig. 5 Qualitative Performance of the ablations. Sharpest performance drop upon DSE removal validates COME's shared feature space enabling collaborative expert specialization.</p>
             </div>
 
             <div class="content">
-                <h2>Parameter Setting</h2>
-                <p>To resolve potential conflicts in source routing, this section establishes two parameter analyses: [1] Dynamic configuration of number of source-specific experts via candidate set #Expert<sub>i</sub> ∈ {2, 4, 8, 10} enforces differentiated routing paths; [2] Analyzes the impact of K ∈{1, 2, 3, 4}on the Top‑K selection strategy. This pursuit of optimal parameters is intended to prevent the risk of overloading a single expert while ensuring the optimality of routing decisions through comprehensive parameter space exploration.</p>
+                <h2>Details of Parameter Setting</h2>
+                <p>To resolve potential conflicts in source routing, this section establishes two parameter analyses: [1] Dynamic configuration of number of source-specific experts. It is important to note that the inter-organ dataset (comprising 8 datasets) and the intra-organ dataset
+					(comprising 4 datasets) differ in composition, leading to different ranges when selecting the number of experts. [2] Analysis of the impact of K on the Top‑K selection strategy.</p>
 <div style="display: flex; justify-content: space-between; gap: 20px; justify-content: center; /* 水平居中 */
 ">
     <table style="border-collapse: collapse; border: none; border-spacing: 0px;">
 	<caption>
-		<h2 style="font-size: 0.8em;">Table III(a) - Investigating the impact of the number of # Expert on the performance of the proposed COME.</h2>
+		<h2 style="font-size: 0.8em;">Table 3(a) - Impact of the number of # Expert on the inter-organ integrated dataset.</h2>
 	</caption>
 	<tr>
 		<td style="border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); border-right: 2px double rgb(0, 0, 0); text-align: center; padding-right: 3pt; padding-left: 3pt;">
@@ -1195,7 +1199,7 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 
     <table style="border-collapse: collapse; border: none; border-spacing: 0px;">
 	<caption>
-				<h2 style="font-size: 0.8em;">Table III(b) - Investigating the impact of the number of # Expert on the performance of the proposed COME.</h2>
+				<h2 style="font-size: 0.8em;">Table 3(b) - Impact of the number of # Expert on the intra-organ thyroid integrated dataset.</h2>
 	</caption>
 	<tr>
 		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
@@ -1303,7 +1307,7 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 <div style="display: flex; justify-content: space-between; gap: 20px; justify-content: center; /* 水平居中 */">
     				<table style="border-collapse: collapse; border: none; border-spacing: 0px;">
 					<caption>
-		<h2 style="font-size: 0.8em;">Table  IV  - Parameter Analysis of the Impact of Top-K on the S²E Module.</h2>
+		<h2 style="font-size: 0.8em;">Table  4  - Impact of Top-K on the S²E Module.</h2>
 	</caption>
 	<tr>
 		<td style="border-right: 2px double black; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
@@ -1474,11 +1478,10 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 
             <div class="content">
                 <h2>In-Depth Analysis</h2>
-                <p>We further highlight the advantages of the proposed COME by answering the following questions.</p>
 <p><strong>Q1: Does COME demonstrate zero-shot domain adaptation capability?</strong></p>
-<p>Four breast datasets exhibit significant distribution variations, such as source-specific noise and artifacts (similar heterogeneity in thyroid datasets). To validate COME's generalizability, we randomly train on the BUSI and test directly on the other three breast datasets.</p>
+<p>Four breast datasets exhibit significant distribution variations, such as source-specific noise and artifacts (similar heterogeneity in thyroid datasets).
+	To validate COME's generalizability, we randomly train on the BUSI and test directly on the other three breast datasets. The performance comparison of DINO (non-MoE setup), DAMEX and our COME is demonstrated in <a href="#data">Tab. 5</a>. </p>
 
-<p>The performance comparison of DINO (non-MoE setup), DAMEX and our COME is demonstrated in <a href="#data">Table V.</a>. Experimental results show significant performance gains: COME achieves a 9% mean AP improvement on BUSI and an aggregate +32.8% mean AP increase across three additional datasets. This substantiates that our dual structure-semantic shared experts effectively provide universal knowledge while the S²E module successfully captures dataset-specific representations through feature routing.</p>
 <table id="table5" style="margin:auto;border-collapse: collapse; border: none; border-spacing: 0px;">
 	<caption>
 		<h2 style="font-size: 0.8em;">Table  V  - The zero-shot domain adaptation ability of the proposed COME.</h2>
@@ -1556,25 +1559,25 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 		</td>
 	</tr>
 </table>
-<p><strong>Q2: Feature Visualization during Clustering</strong></p>
-<p>The proposed COME achieved optimal performance with its Fine2Coarse clustering strategy. As shown in <a href="#data">Fig 6.</a>, we visualized feature distributions across three stages: pre-clustering, post fine-grained clustering (16 centers), and final coarse-grained clustering with 8 centers. Initial fine-grained clustering caused slight feature fragmentation, which impaired downstream S²E training. Subsequent coarse-grained clustering enhanced regional feature concentration, effectively routing samples with similar latent representations to unified experts to promote specialization.</p>
+<p><strong>Q2: How Do Feature Representations Evolve Across Clustering Stages?</strong></p>
+<p>The proposed COME achieved optimal performance with its Fine2Coarse clustering strategy. As shown in <a href="#clustering">Fig. 6</a>, we visualized feature distributions across three stages: pre-clustering, post fine-grained clustering (16 centers), and final coarse-grained clustering with 8 centers.</p>
 
-<img src="img/clustering.png" alt="Clustering." style="max-width: 50%; height: auto;">
+<img id="clustering"  src="img/clustering.png" alt="Clustering." style="max-width: 60%; height: auto;">
 				<p></p>
-                <p class="caption">Fig 6. Feature Visualization of Fine2Coarse Clustering</p>
-				<p>Simultaneously, we demonstrate a multi-step clustering in <a href="#data">Fig 7.</a>: we set up five steps with four cluster centers per step. The clustering results from the previous stage serve as priors for the current stage, enabling COME to progressively construct independent attribute subspaces and achieve finer, more diversified feature representations that enhance downstream inference tasks.</p>
+                <p class="caption">Fig. 6 Feature Visualization of Fine2Coarse Clustering.</p>
+				<p>Simultaneously, we implement a five-step clustering, visualizing three of these steps in the <a href="#multi">Fig. 7</a>. </p>
 
-<img src="img/multi-clustering.png" alt="Clustering." style="max-width: 100%; height: auto;">
+<img id='multi' src="img/multi_clustering.png" alt="Clustering." style="max-width: 80%; height: auto;">
 				<p></p>
-                <p class="caption">Fig 7. Feature Visualization of Multi-Step Clustering.</p>
+                <p class="caption">Fig. 7 Feature Visualization of Multi-Step Clustering.</p>
 								<p></p>
-				<p><strong>Q3: How effectively are the experts utilized in the MoE layer of the S<sup>2</sup>E module in COME?</strong></p>
-<p><a href="#data">Fig 1(b).</a> illustrates the distribution of expert activation in COME across 8 heterogeneous datasets. It shows that experts are evenly assigned among the datasets, their activation increases as training progresses; and even under integrated-data interference, COME consistently routes samples from the same dataset to the same expert, validating the specialization of our source-specific experts S²E.</p>
+<!--				<p><strong>Q3: How effectively are the experts utilized in the MoE layer of the S<sup>2</sup>E module in COME?</strong></p>-->
+<!--<p><a href="#data">Fig 1(b).</a> illustrates the distribution of expert activation in COME across 8 heterogeneous datasets. It shows that experts are evenly assigned among the datasets, their activation increases as training progresses; and even under integrated-data interference, COME consistently routes samples from the same dataset to the same expert, validating the specialization of our source-specific experts S²E.</p>-->
 
 
-<img src="img/MOE.png" alt="Utilization of MoE." style="max-width: 60%; height: auto;">
-								<p></p>
-				                <p class="caption">Fig 7. Feature Visualization of Multi-Step Clustering.</p>
+<!--<img src="img/MOE.png" alt="Utilization of MoE." style="max-width: 60%; height: auto;">-->
+<!--								<p></p>-->
+<!--				                <p class="caption">Fig 7. Feature Visualization of Multi-Step Clustering.</p>-->
 
             </div>
 
