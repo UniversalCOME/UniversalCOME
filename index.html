@@ -136,11 +136,8 @@
 
 <div class="content">
                        <h2>Dataset Details</h2>
-
-<p>To design a universal model for heterogeneous ultrasound (US) datasets, we first construct an integrated benchmark consisting of 4 breast and 4 thyroid US datasets. Notably, these datasets originate from different sources, with significant domain differences, including varying shadow artifacts, speckle noise distributions, inconsistent grayscale variations, and differing anatomical structures, as shown in <a href="#data">Fig 1(a).</a>.</p>
-<p>Due to the strict collection environments of US datasets and the heavy reliance on experienced doctors, many existing public datasets suffer from an imbalanced distribution, as shown in <a href="#data">Fig 1(b).</a>. However, the proposed COME architecture effectively addresses this issue. As demonstrated in <a href="#table1">Table Ⅰ</a> of the main text, the middle section of the table shows that after training on two intra-organ datasets, both COME(Multi-step) and COME(Fine2Coarse) achieve optimal performance across all datasets, with a 5.14% improvement in mean AP. The lower part of the table shows that, on all eight inter-organ datasets, COME outperforms other methods by 3.19%, with improvements in nearly all datasets.</p>
-
-            <img id="data" src="img/data.png" alt="separator icon" style="max-width: 90%; height: auto;" >
+<P>To develop a universal model for heterogeneous ultrasound (US) datasets, we built a benchmark of 4 breast and 4 thyroid US datasets. These datasets come from different sources and exhibit significant domain differences, such as variations in shadow artifacts, speckle noise, grayscale levels, and anatomical structures, as shown in <a href="#data">Fig 1.</a></p>
+	<img id="data" src="img/data.png" alt="separator icon" style="max-width: 90%; height: auto;" >
 <p></p>
             <p class="caption">Fig 1. This paper constructs an integrated benchmark comprising eight heterogeneous breast and thyroid ultrasound datasets. And the distinct characteristics of each dataset pose challenges in building a universal analysis framework.</p>
 </div>
@@ -805,7 +802,14 @@
 			<p></p>
             <p class="caption">Fig 3. We visualize lesion detection on the inter-organ integration benchmark, comparing the non-MoE model DINO, the MoE-based
 DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all heterogeneous datasets.</p>
-        </div>
+
+<p>In the main text, we select one sample per dataset for comparison. Here, <a href="#sample">Fig 4.</a> shows additional lesion detection examples, demonstrating that our structure-semantic learning-based COME model delivers robust performance on diverse US images and holds promise for real-world clinical applications.</p>
+       <div class="image-row">
+                <img id="sample" src="img/sample.png" alt="Results comparison 1" style="max-width: 70%; height: auto;">
+            </div>
+			<p></p>
+			<p class="caption">Fig 4. Additional lesion detection examples from the inter-organ integrated dataset.</p>
+		</div>
     </div>
 
     <!-- 第二段 -->
@@ -813,8 +817,7 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
         <div class="container">
             <div class="content">
                 <h2>Ablation Analysis</h2>
-
-                <p>In this section, (1) we first conduct an ablation study on the Transformer block architecture. As shown in Figure (a), HSformer+ divides K heads into two groups for horizontal and vertical hybrid structure-oriented attention calculations, followed by concatenation. We also design an architecture called HSformer-test, where all K heads are used for both horizontal and vertical feature extraction, followed by broadcasting, as depicted in Figure (b). Subsequently, (2) To evaluate the effectiveness of HCPE, SBC and the novel structure-oriented loss, we implement component analysis with several variants.</p>
+<p>To validate the effectiveness of each component in COME, we implement five variants: (1) Ours w/o STE; (2) Ours w/o SEE; (3) Ours w/o Dual Shared Experts (-DSE): Discarding dual shared expert modules providing structural-semantic priors; (4) Ours w/o clustering; (5) Ours w/o Traceability loss, as shown in <a href="#ablation">Fig 5.</a>. In general, the -DSE exhibits the most severe performance degradation (-7.68% mean AP), followed by STE and SEE removals. It proves that constructing a universal latent feature space with structural-semantic priors enhances the performance of source-specific experts. Additionally, disabling the clustering (designed for multi-dataset noise suppression) results in 3.24% scores degradation, while removing the traceability loss (critical for expert specialization and training stability) causes 2.68% performance decline. In summary, our COME demonstrates superior improvement over baselines on multiple heterogeneous datasets when combining all components. The detailed quantitative results are presented in <a href="#table2">Table Ⅱ.</a></p>
                            <h2 style="font-size: 0.8em;">Table Ⅱ - Lesion detection results on our benchmark, divided into top, middle, and bottom sections based on training data paradigms.</h2>
 
                 <table style="margin:auto;marginborder-collapse: collapse; border: none; border-spacing: 0px;">
@@ -1048,7 +1051,7 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 <p></p>
 				<img id='ablation' src="img/ablation.png" alt="Ablation architecture" style="max-width: 70%; height: auto;">
 				<p></p>
-                <p class="caption">Fig 4. Performance of the ablation study.</p>
+                <p class="caption">Fig 5. Performance of the ablation study.</p>
             </div>
 
             <div class="content">
@@ -1554,16 +1557,16 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 	</tr>
 </table>
 <p><strong>Q2: Feature Visualization during Clustering</strong></p>
-<p>The proposed COME achieved optimal performance with its Fine2Coarse clustering strategy. As shown in <a href="#data">Fig 5.</a>, we visualized feature distributions across three stages: pre-clustering, post fine-grained clustering (16 centers), and final coarse-grained clustering with 8 centers. Initial fine-grained clustering caused slight feature fragmentation, which impaired downstream S²E training. Subsequent coarse-grained clustering enhanced regional feature concentration, effectively routing samples with similar latent representations to unified experts to promote specialization.</p>
+<p>The proposed COME achieved optimal performance with its Fine2Coarse clustering strategy. As shown in <a href="#data">Fig 6.</a>, we visualized feature distributions across three stages: pre-clustering, post fine-grained clustering (16 centers), and final coarse-grained clustering with 8 centers. Initial fine-grained clustering caused slight feature fragmentation, which impaired downstream S²E training. Subsequent coarse-grained clustering enhanced regional feature concentration, effectively routing samples with similar latent representations to unified experts to promote specialization.</p>
 
 <img src="img/clustering.png" alt="Clustering." style="max-width: 50%; height: auto;">
 				<p></p>
-                <p class="caption">Fig 5. Feature Visualization of Fine2Coarse Clustering</p>
-				<p>Simultaneously, we demonstrate a multi-step clustering in <a href="#data">Fig 6.</a>: we set up five steps with four cluster centers per step. The clustering results from the previous stage serve as priors for the current stage, enabling COME to progressively construct independent attribute subspaces and achieve finer, more diversified feature representations that enhance downstream inference tasks.</p>
+                <p class="caption">Fig 6. Feature Visualization of Fine2Coarse Clustering</p>
+				<p>Simultaneously, we demonstrate a multi-step clustering in <a href="#data">Fig 7.</a>: we set up five steps with four cluster centers per step. The clustering results from the previous stage serve as priors for the current stage, enabling COME to progressively construct independent attribute subspaces and achieve finer, more diversified feature representations that enhance downstream inference tasks.</p>
 
 <img src="img/multi-clustering.png" alt="Clustering." style="max-width: 100%; height: auto;">
 				<p></p>
-                <p class="caption">Fig 6. Feature Visualization of Multi-Step Clustering.</p>
+                <p class="caption">Fig 7. Feature Visualization of Multi-Step Clustering.</p>
 								<p></p>
 				<p><strong>Q3: How effectively are the experts utilized in the MoE layer of the S<sup>2</sup>E module in COME?</strong></p>
 <p><a href="#data">Fig 1(b).</a> illustrates the distribution of expert activation in COME across 8 heterogeneous datasets. It shows that experts are evenly assigned among the datasets, their activation increases as training progresses; and even under integrated-data interference, COME consistently routes samples from the same dataset to the same expert, validating the specialization of our source-specific experts S²E.</p>
