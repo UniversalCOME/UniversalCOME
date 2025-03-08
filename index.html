@@ -130,7 +130,7 @@
     <div class="container">
         <div class="content">
             <h2>Abstract</h2>
-            <p> Conventional single-dataset training often fails with new data distributions, especially in ultrasound (US) image analysis due to limited data, acoustic shadows, and speckle noise.
+            <p style="text-align:justify;">Conventional single-dataset training often fails with new data distributions, especially in ultrasound (US) image analysis due to limited data, acoustic shadows, and speckle noise.
 Therefore, constructing a universal framework for multi-heterogeneous US datasets is imperative. However, a key challenge arises: how to effectively mitigate inter-dataset interference while preserving dataset-specific discriminative features for robust downstream task?
 Previous approaches utilize either a single source-specific decoder or a domain adaptation strategy, but these methods experienced a decline in performance when applied to other domains. Considering this, we propose a Universal Collaborative Mixture of Heterogeneous Source-Specific Experts (COME). Specifically, COME establishes dual structure-semantic shared experts that create a universal representation space and then collaborate with source-specific experts to extract discriminative features through providing complementary features. This design enables robust generalization by leveraging cross-datasets experience distributions and providing universal US priors for small-batch or unseen data scenarios. Extensive experiments under three evaluation modes (single-dataset, intra-organ, and inter-organ integration datasets) demonstrate COME's superiority, achieving significant mean AP improvements over state-of-the-art methods. </p>
         </div>
@@ -138,14 +138,14 @@ Previous approaches utilize either a single source-specific decoder or a domain 
 
 <div class="content">
                        <h2>Details of Multiple Heterogeneous Ultrasound Dataset Integration</h2>
-<P>To develop a universal model for heterogeneous ultrasound (US) datasets, we built a benchmark of 4 breast and 4 thyroid US datasets. These datasets come from different sources and exhibit significant domain differences, such as variations in shadow artifacts, speckle noise, grayscale levels, and anatomical structures, as shown in <a href="#data">Fig. 1</a></p>
+<P style="text-align:justify;">To develop a universal model for heterogeneous ultrasound (US) datasets, we built a benchmark of 4 breast and 4 thyroid US datasets. These datasets come from different sources and exhibit significant domain differences, such as variations in shadow artifacts, speckle noise, grayscale levels, and anatomical structures, as shown in <a href="#data">Fig. 1</a></p>
 	<img id="data" src="img/data.png" alt="separator icon" style="max-width: 90%; height: auto;" >
 <p></p>
             <p class="caption">Fig. 1 (a) presents representative samples from eight datasets, highlighting their distinct imaging variations. Fig. 1 (b) illustrates the distribution of these datasets within the overall inter-organ mixed dataset, revealing a significant data imbalance.</p>
 </div>
         <div class="content">
             <h2>Collaborative Mixture of Heterogeneous Source-Specific Experts (COME)</h2>
-            <p>We propose the Collaborative Mixture of Heterogeneous Experts (COME), a novel framework for lesion detection across multiple heterogeneous US datasets that synergistically integrates dual structural-semantic priors with intra-dataset specific feature disentanglement, as illustrated in <a href="#frame">Fig. 2</a></p>
+            <p style="text-align:justify;">We propose the Collaborative Mixture of Heterogeneous Experts (COME), a novel framework for lesion detection across multiple heterogeneous US datasets that synergistically integrates dual structural-semantic priors with intra-dataset specific feature disentanglement, as illustrated in <a href="#frame">Fig. 2</a></p>
             <p></p>
 			<img id="frame" src="img/frame.png" alt="Illustration of the proposed HSformer+ framework;" style="max-width: 70%; height: auto;">
 			<p></p>
@@ -155,7 +155,7 @@ Previous approaches utilize either a single source-specific decoder or a domain 
 
         <div class="content">
             <h2>Results of Comparative Experiments</h2>
-            <p><a href="#table1">Tab. 1</a> compares COME with baselines across three training configurations: single-dataset, intra-organ (breast/thyroid) combinations, and inter-organ integration.</p>
+            <p style="text-align:justify;"><a href="#table1">Tab. 1</a> compares COME with baselines across three training configurations: single-dataset, intra-organ (breast/thyroid) combinations, and inter-organ integration.</p>
 <!--<ol style="text-align: left;">-->
 <!--    <li>DINO (top section) achieves performance with -3.49% and -4.62% mean AP decrease over middle/bottom configurations respectively. Besides, the high computational cost of single-dataset training outweighs its performance gains, with poor generalizability causing significant performance drops on unseen data.</li>-->
 <!--    <li>COME with Multi-step clustering attains the highest mean AP, showing 5.14-7.42% improvements vs. others. The consistent performance gains across most datasets demonstrate the efficacy of our multi-dataset integration and cross-dataset correlation mining.</li>-->
@@ -796,7 +796,7 @@ Previous approaches utilize either a single source-specific decoder or a domain 
 	</tr>
 </table>
   <p style="height: 10px;">&nbsp;</p>
-			<p>Further, we present visualization results of four models trained on the integration benchmark of eight datasets, highlighting image differences and demonstrating the superiority of our COME, as shown in <a href="#result">Fig. 3</a>.</p>
+			<p style="text-align:justify;">Further, we present visualization results of four models trained on the integration benchmark of eight datasets, highlighting image differences and demonstrating the superiority of our COME, as shown in <a href="#result">Fig. 3</a>.</p>
 
 
             <div class="image-row">
@@ -806,7 +806,7 @@ Previous approaches utilize either a single source-specific decoder or a domain 
             <p class="caption">Fig. 3 We visualize lesion detection on the inter-organ integration benchmark, comparing the non-MoE model DINO, the MoE-based
 DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all heterogeneous datasets.</p>
 
-<p>In the main text, we select one sample per dataset for comparison, as demonstrated in <a href="#data">Fig. 3</a>. Here, <a href="#sample">Fig. 4</a> shows additional lesion detection examples, demonstrating that our structure-semantic learning-based COME model delivers robust performance on diverse US images and holds promise for real-world clinical applications.</p>
+<p style="text-align:justify;">In the main text, we select one sample per dataset for comparison, as demonstrated in <a href="#data">Fig. 3</a>. Here, <a href="#sample">Fig. 4</a> shows additional lesion detection examples, demonstrating that our structure-semantic learning-based COME model delivers robust performance on diverse US images and holds promise for real-world clinical applications.</p>
        <div class="image-row">
                 <img id="sample" src="img/sample.png" alt="Results comparison 1" style="max-width: 65%; height: auto;">
             </div>
@@ -820,7 +820,7 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
         <div class="container">
             <div class="content">
                 <h2>Details of Ablations</h2>
-<p>To validate the effectiveness of each component in COME, we implement five variants: (1) Ours w/o STE; (2) Ours w/o SEE; (3) Ours w/o Dual Shared Experts (-DSE): Discarding dual shared expert modules providing structural-semantic priors; (4) Ours w/o clustering; (5) Ours w/o Traceability loss. Quantitative and qualitative results are shown in <a href="#table2">Table. 2</a> and <a href="#ablation">Fig. 5</a>, respectively.</p>
+<p style="text-align:justify;">To validate the effectiveness of each component in COME, we implement five variants: (1) Ours w/o STE; (2) Ours w/o SEE; (3) Ours w/o Dual Shared Experts (-DSE): Discarding dual shared expert modules providing structural-semantic priors; (4) Ours w/o clustering; (5) Ours w/o Traceability loss. Quantitative and qualitative results are shown in <a href="#table2">Table. 2</a> and <a href="#ablation">Fig. 5</a>, respectively.</p>
 				<h2 style="font-size: 0.8em;">Tab. 2 - Quantitative Performance of the ablation study.</h2>
 
                 <table id="table2"  style="margin:auto;marginborder-collapse: collapse; border: none; border-spacing: 0px;">
@@ -1059,7 +1059,7 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 
             <div class="content">
                 <h2>Details of Parameter Setting</h2>
-                <p>To resolve potential conflicts in source routing, this section establishes two parameter analyses: [1] Dynamic configuration of number of source-specific experts. It is important to note that the inter-organ dataset (comprising 8 datasets) and the intra-organ dataset
+                <p style="text-align:justify;">To resolve potential conflicts in source routing, this section establishes two parameter analyses: [1] Dynamic configuration of number of source-specific experts. It is important to note that the inter-organ dataset (comprising 8 datasets) and the intra-organ dataset
 					(comprising 4 datasets) differ in composition, leading to different ranges when selecting the number of experts. [2] Analysis of the impact of K on the Top‑K selection strategy.</p>
 <div style="display: flex; justify-content: space-between; gap: 20px; justify-content: center; /* 水平居中 */
 ">
@@ -1478,8 +1478,8 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 
             <div class="content">
                 <h2>In-Depth Analysis</h2>
-<p><strong>Q1: Does COME demonstrate zero-shot domain adaptation capability?</strong></p>
-<p>Four breast datasets exhibit significant distribution variations, such as source-specific noise and artifacts (similar heterogeneity in thyroid datasets).
+<p style="text-align:justify;"><strong>Q1: Does COME demonstrate zero-shot domain adaptation capability?</strong></p>
+<p style="text-align:justify;">Four breast datasets exhibit significant distribution variations, such as source-specific noise and artifacts (similar heterogeneity in thyroid datasets).
 	To validate COME's generalizability, we randomly train on the BUSI and test directly on the other three breast datasets. The performance comparison of DINO (non-MoE setup), DAMEX and our COME is demonstrated in <a href="#data">Tab. 5</a>. </p>
 
 <table id="table5" style="margin:auto;border-collapse: collapse; border: none; border-spacing: 0px;">
@@ -1559,13 +1559,13 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 		</td>
 	</tr>
 </table>
-<p><strong>Q2: How Do Feature Representations Evolve Across Clustering Stages?</strong></p>
-<p>The proposed COME achieved optimal performance with its Fine2Coarse clustering strategy. As shown in <a href="#clustering">Fig. 6</a>, we visualized feature distributions across three stages: pre-clustering, post fine-grained clustering (16 centers), and final coarse-grained clustering with 8 centers.</p>
+<p style="text-align:justify;"><strong>Q2: How Do Feature Representations Evolve Across Clustering Stages?</strong></p>
+<p style="text-align:justify;">The proposed COME achieved optimal performance with its Fine2Coarse clustering strategy. As shown in <a href="#clustering">Fig. 6</a>, we visualized feature distributions across three stages: pre-clustering, post fine-grained clustering (16 centers), and final coarse-grained clustering with 8 centers.</p>
 
 <img id="clustering"  src="img/clustering.png" alt="Clustering." style="max-width: 60%; height: auto;">
 				<p></p>
                 <p class="caption">Fig. 6 Feature Visualization of Fine2Coarse Clustering.</p>
-				<p>Simultaneously, we implement a five-step clustering, visualizing three of these steps in the <a href="#multi">Fig. 7</a>. </p>
+				<p style="text-align:justify;">Simultaneously, we implement a five-step clustering, visualizing three of these steps in the <a href="#multi">Fig. 7</a>. </p>
 
 <img id='multi' src="img/multi_clustering.png" alt="Clustering." style="max-width: 80%; height: auto;">
 				<p></p>
@@ -1584,7 +1584,7 @@ DINO-MoE and DAMEX, and ours. COME demonstrates strong performance across all he
 
 			<div class="content">
                 <h2>Conclusion</h2>
-<p>This study proposes a dual structure-semantic learning framework for multiple heterogeneous US analysis, demonstrating superior performance in lesion detection. Addressing multi-source data characteristics, we innovatively design two shared experts to construct a universal feature space by integrating structural invariance and semantic consistency, supporting source-specific feature mining. Then a source-specific expert routing module employs clustering for feature decoupling, enhanced by traceability loss to reinforce expert specialization and ensure consistent data routing. Additionally, empirical results validate the effectiveness of intra-/inter-organ data integration strategies, offering new perspectives for the US analysis community, particularly given the increasing availability of public datasets.</p>
+<p style="text-align:justify;">This study proposes a dual structure-semantic learning framework for multiple heterogeneous US analysis, demonstrating superior performance in lesion detection. Addressing multi-source data characteristics, we innovatively design two shared experts to construct a universal feature space by integrating structural invariance and semantic consistency, supporting source-specific feature mining. Then a source-specific expert routing module employs clustering for feature decoupling, enhanced by traceability loss to reinforce expert specialization and ensure consistent data routing. Additionally, empirical results validate the effectiveness of intra-/inter-organ data integration strategies, offering new perspectives for the US analysis community, particularly given the increasing availability of public datasets.</p>
             </div>
         </div>
     </section>
